@@ -1,0 +1,15 @@
+EMPLOYMENT AGREEMENT
+
+This Employment Agreement ("Agreement") is made effective as of January 1, 2026, between TechGiant Corp ("Employer") and John Doe ("Employee").
+
+1. POSITION
+Employee is hired as Senior Engineer.
+
+2. AT-WILL EMPLOYMENT
+Employment is at-will and may be terminated by either party at any time.
+
+3. NON-COMPETE
+During the term of employment and for 12 months thereafter, Employee agrees not to work for any competitor within California.
+
+4. GOVERNING LAW
+This Agreement shall be governed by the laws of the State of California.

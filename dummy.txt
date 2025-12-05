@@ -1,0 +1,7 @@
+NON-DISCLOSURE AGREEMENT
+
+This Non-Disclosure Agreement (the "Agreement") is entered into by and between John Doe ("Disclosing Party") and Jane Smith ("Receiving Party") as of January 1, 2024 (the "Effective Date").
+
+1. Confidential Information. The Receiving Party agrees to protect the confidential information of the Disclosing Party.
+2. Term. This Agreement shall remain in effect for a period of two (2) years from the Effective Date.
+3. Exclusions. Information that is public knowledge is not Confidential Information.

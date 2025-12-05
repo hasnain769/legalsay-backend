@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+google-generativeai
+google-adk
+python-dotenv
+pypdf2
+python-docx
+supabase
+pytest
+httpx
+loguru

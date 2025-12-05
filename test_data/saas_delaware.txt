@@ -1,0 +1,17 @@
+SAAS SUBSCRIPTION AGREEMENT
+
+This Agreement is between CloudProvider Inc. ("Provider") and EnterpriseUser Ltd. ("Customer").
+
+1. SERVICE
+Provider grants Customer access to the SaaS Platform.
+
+2. FEES
+Customer shall pay the fees set forth in the Order Form.
+3. LIMITATION OF LIABILITY
+IN NO EVENT SHALL PROVIDER'S LIABILITY EXCEED $100. THIS APPLIES REGARDLESS OF THE CAUSE OF ACTION.
+
+4. INDEMNIFICATION
+Customer agrees to indemnify Provider against all claims arising from Customer's use of the Service.
+
+5. GOVERNING LAW
+This Agreement is governed by the laws of the State of Delaware.

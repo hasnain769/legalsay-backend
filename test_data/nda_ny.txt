@@ -1,0 +1,15 @@
+NON-DISCLOSURE AGREEMENT
+
+This Non-Disclosure Agreement ("Agreement") is entered into as of November 1, 2025, by and between Startup Inc. ("Disclosing Party") and Investor LLC ("Receiving Party").
+
+1. CONFIDENTIAL INFORMATION
+"Confidential Information" means all non-public information disclosed by Disclosing Party.
+
+2. OBLIGATIONS
+Receiving Party agrees to hold Confidential Information in strict confidence and not to disclose it to any third party for a period of two (2) years from the date of disclosure.
+
+3. EXCLUSIONS
+Confidential Information shall not include information that is publicly known.
+
+4. GOVERNING LAW
+This Agreement shall be governed by the laws of the State of New York.

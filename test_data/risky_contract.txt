@@ -1,0 +1,35 @@
+MASTER SERVICES AGREEMENT
+
+This Master Services Agreement ("Agreement") is entered into as of October 1, 2025 ("Effective Date") by and between TechCorp Inc. ("Client") and DevStudio LLC ("Provider").
+
+1. SERVICES
+Provider agrees to perform the services described in Statement of Work #1 ("Services").
+
+2. PAYMENT TERMS
+Client shall pay all undisputed invoices within ninety (90) days of receipt. Late payments shall incur no interest.
+
+3. INTELLECTUAL PROPERTY
+All work product created by Provider shall be the sole and exclusive property of Client. Provider hereby assigns all rights, title, and interest in such work product to Client. Provider grants Client a perpetual, irrevocable, worldwide, royalty-free license to use any background IP incorporated into the work product.
+
+4. CONFIDENTIALITY
+Provider agrees to keep all Client information confidential indefinitely. "Confidential Information" shall include anything marked confidential or that should reasonably be understood to be confidential.
+
+5. INDEMNIFICATION
+Provider agrees to indemnify, defend, and hold harmless Client from and against any and all claims, damages, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to Provider's performance of the Services, regardless of fault.
+
+6. LIMITATION OF LIABILITY
+CLIENT'S TOTAL LIABILITY UNDER THIS AGREEMENT SHALL NOT EXCEED THE TOTAL FEES PAID TO PROVIDER IN THE ONE (1) MONTH PRECEDING THE CLAIM. PROVIDER'S LIABILITY SHALL BE UNLIMITED.
+
+7. NON-COMPETE
+During the term of this Agreement and for a period of two (2) years thereafter, Provider agrees not to provide similar services to any competitor of Client within the State of California.
+
+8. TERMINATION
+Client may terminate this Agreement for convenience upon five (5) days' written notice. Provider may only terminate this Agreement for material breach by Client that remains uncured for thirty (30) days.
+
+9. GOVERNING LAW
+This Agreement shall be governed by the laws of the State of California.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement.
+
+Client: TechCorp Inc.
+Provider: DevStudio LLC
