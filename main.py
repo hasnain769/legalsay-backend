@@ -59,14 +59,21 @@ async def log_requests(request: Request, call_next):
             logging.error(f"Request Failed: {str(e)}")
             raise e
 
+origins = [
+    "http://localhost:3000",                 # Local development
+    "https://www.legalsay.ai",               # Production Main
+    "https://legalsay.ai",                   # Production Root
+    "https://legalsay-frontend.vercel.app",  # Vercel Deployment
+    "https://api.legalsay.ai"                # Your Backend (Self-trust)
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=origins,  # Use the updated list
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],    # Allow GET, POST, OPTIONS, etc.
+    allow_headers=["*"],    # Allow all headers (Auth, Content-Type)
 )
-
 APP_NAME = "legalsay_app"
 USER_ID = "user1234"
 SESSION_ID = "session4566"
