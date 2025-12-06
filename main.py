@@ -75,8 +75,8 @@ app.add_middleware(
     allow_headers=["*"],    # Allow all headers (Auth, Content-Type)
 )
 APP_NAME = "legalsay_app"
-USER_ID = "user1234"
-SESSION_ID = "session4566"
+USER_ID = "user1224"
+SESSION_ID = "session4787"
 
 session_service = None
 # We will create runners dynamically or store them in a dict if needed, 
