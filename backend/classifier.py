@@ -8,6 +8,7 @@ class ContractType(str, Enum):
     NDA = "NDA"
     FREELANCE = "Freelance Agreement"
     OTHER = "Other"
+    IRRELEVANT = "Irrelevant"
 
 class ClassifierOutput(BaseModel):
     contract_type: ContractType = Field(description="The type of the contract.")
@@ -23,6 +24,9 @@ class ClassifierAgent(LlmAgent):
             - NDA (Non-Disclosure Agreement)
             - Freelance Agreement (Service Agreement, Contractor Agreement, Master Services Agreement/MSA, Statement of Work/SOW)
             - Other (Lease, Employment, etc.)
+            - Irrelevant (Recipes, Novels, Code, Random Text, Non-Legal Documents)
+            
+            If the text does not appear to be a legal contract or related legal document, classify it as "Irrelevant".
             
             Respond ONLY with a JSON object matching the ClassifierOutput schema.
             """,

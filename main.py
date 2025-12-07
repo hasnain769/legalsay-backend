@@ -165,13 +165,12 @@ def extract_text_from_docx(file_stream):
 @app.post("/analyze_contract/")
 async def analyze_contract(
     file: UploadFile = File(None), 
-    text: str = Form(None),
-    jurisdiction: str = Form("United States (General)")
+    text: str = Form(None)
 ):
     extracted_text = ""
     
     if file:
-        logging.info(f"Processing file: {file.filename} | Jurisdiction: {jurisdiction}")
+        logging.info(f"Processing file: {file.filename}")
         content = await file.read()
         
         try:
@@ -190,7 +189,7 @@ async def analyze_contract(
             raise HTTPException(status_code=500, detail=f"Failed to process file: {str(e)}")
             
     elif text:
-        logging.info(f"Processing raw text input | Jurisdiction: {jurisdiction}")
+        logging.info(f"Processing raw text input")
         extracted_text = text
         
     else:
@@ -216,6 +215,22 @@ async def analyze_contract(
 
     logging.info(f"Contract Type: {contract_type}")
     
+    # --- HANDLE IRRELEVANT DOCS ---
+    if contract_type == "Irrelevant":
+        logging.info("Document classified as Irrelevant. Returning friendly message.")
+        return {
+            "analysis": json.dumps({
+                "contract_type": "Irrelevant",
+                "jurisdiction": "Not Specified",
+                "plain_english_summary": "It looks like this isn't a legal contract. LegalSay works best with NDAs, SOWs, and other legal agreements.",
+                "total_health_score": 0,
+                "key_details": [],
+                "red_flags": [],
+                "yellow_flags": [],
+                "green_flags": []
+            })
+        }
+    
     # 3. Specialist Analysis (Parallel-ish)
     logging.info(f"Routing to {contract_type} Specialist & Risk Agent...")
     
@@ -234,6 +249,15 @@ async def analyze_contract(
     # In a real async system, we'd use asyncio.gather here
     specialist_results = await run_agent(specialist, extracted_text, specialist_model)
     
+    # Extract jurisdiction from specialist results (GeneralParserAgent always runs)
+    jurisdiction = "Not Specified"
+    if isinstance(specialist_results, dict) and "jurisdiction" in specialist_results:
+        jurisdiction = specialist_results.get("jurisdiction", "Not Specified")
+    elif hasattr(specialist_results, 'jurisdiction'):
+        jurisdiction = specialist_results.jurisdiction or "Not Specified"
+    
+    logging.info(f"Identified Jurisdiction: {jurisdiction}")
+    
     # Pass Jurisdiction to Risk Agent
     risk_prompt = f"Jurisdiction: {jurisdiction}\n\nContract Text:\n{extracted_text}"
     risk_results = await run_agent(risk_agent, risk_prompt, RiskAgentOutput)
@@ -244,7 +268,6 @@ async def analyze_contract(
         "contract_type": contract_type,
         "specialist_findings": specialist_results,
         "risk_findings": risk_results, # Pass the risk results explicitly
-        "jurisdiction": jurisdiction,
         "original_text_snippet": extracted_text[:2000] 
     }
     
@@ -379,9 +402,21 @@ async def negotiate_chat(request: NegotiationRequest):
     if request.analysis_context:
         context_parts.append("Contract Analysis Results:")
         if request.analysis_context.get('red_flags'):
-            context_parts.append(f"Red Flags: {', '.join(request.analysis_context['red_flags'])}")
+            # Handle both old string format and new dict format
+            red_flags = request.analysis_context['red_flags']
+            if red_flags and isinstance(red_flags[0], dict):
+                red_flag_texts = [f['analysis'] for f in red_flags]
+            else:
+                red_flag_texts = red_flags
+            context_parts.append(f"Red Flags: {', '.join(red_flag_texts)}")
         if request.analysis_context.get('yellow_flags'):
-            context_parts.append(f"Yellow Flags: {', '.join(request.analysis_context['yellow_flags'])}")
+            # Handle both old string format and new dict format
+            yellow_flags = request.analysis_context['yellow_flags']
+            if yellow_flags and isinstance(yellow_flags[0], dict):
+                yellow_flag_texts = [f['analysis'] for f in yellow_flags]
+            else:
+                yellow_flag_texts = yellow_flags
+            context_parts.append(f"Yellow Flags: {', '.join(yellow_flag_texts)}")
         if request.analysis_context.get('total_health_score'):
             context_parts.append(f"Health Score: {request.analysis_context['total_health_score']}/100")
         context_parts.append("")

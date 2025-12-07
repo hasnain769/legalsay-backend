@@ -11,6 +11,7 @@ from typing import List, Optional
 class GeneralParserOutput(BaseModel):
     parties: List[str] = Field(description="List of parties involved in the contract.")
     effective_date: Optional[str] = Field(description="The effective date of the contract.")
+    jurisdiction: Optional[str] = Field(description="The governing law/jurisdiction mentioned in the contract. Examples: 'California', 'New York', 'United Kingdom', 'Singapore'. If not specified, return 'Not Specified'.")
 
 class NDAParserOutput(BaseModel):
     term_duration: Optional[str] = Field(description="The duration of the confidentiality obligations.")
@@ -20,10 +21,14 @@ class SOWParserOutput(BaseModel):
     fees: Optional[str] = Field(description="The fee structure or total amount.")
     deliverables: List[str] = Field(description="List of deliverables or services to be provided.")
 
+class FlagWithText(BaseModel):
+    analysis: str = Field(description="The AI analysis of the risk or benefit")
+    original_text: str = Field(description="The actual clause text from the contract that this flag refers to")
+
 class RiskAgentOutput(BaseModel):
-    red_flags: List[str] = Field(description="List of critical risks found.")
-    yellow_flags: List[str] = Field(description="List of moderate risks found.")
-    green_flags: List[str] = Field(description="List of positive clauses found.")
+    red_flags: List[FlagWithText] = Field(description="List of critical risks with original text")
+    yellow_flags: List[FlagWithText] = Field(description="List of moderate risks with original text")
+    green_flags: List[FlagWithText] = Field(description="List of positive clauses with original text")
 
 # --- Agents ---
 
@@ -32,7 +37,13 @@ class GeneralParserAgent(LlmAgent):
         super().__init__(
             model='gemini-2.0-flash',
             name='general_parser',
-            instruction="Extract the parties and effective date from the contract.",
+            instruction="""Extract the following from the contract:
+            1. Parties involved
+            2. Effective date
+            3. Governing law/jurisdiction (look for clauses like 'Governing Law', 'Choice of Law', 'Jurisdiction', etc.)
+            
+            If jurisdiction is not explicitly stated, return 'Not Specified'.
+            """,
             planner=BuiltInPlanner(thinking_config=ThinkingConfig(include_thoughts=True)),
             output_schema=GeneralParserOutput,
         )
@@ -55,7 +66,7 @@ class SOWParserAgent(LlmAgent):
             instruction="Extract the fees and deliverables from the Freelance/Service Agreement.",
             planner=BuiltInPlanner(thinking_config=ThinkingConfig(include_thoughts=True)),
             output_schema=SOWParserOutput,
-        )
+        )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
 class RiskAgent(LlmAgent):
     def __init__(self):
@@ -84,12 +95,19 @@ class RiskAgent(LlmAgent):
             - GREEN FLAGS: Good, standard, or fair clauses that protect the user.
             - MISSING CLAUSES: Check for standard protections that are absent (e.g., "Missing Mutual Indemnification", "Missing Termination for Convenience"). Flag these as YELLOW or RED depending on severity.
 
+            CRITICAL: For each flag, you MUST provide:
+            1. analysis: Your AI assessment of the risk/benefit with citations
+            2. original_text: The exact verbatim text from the contract that contains this clause
+            
+            Extract the relevant clause text word-for-word from the contract. If the clause spans multiple sections, include all relevant parts.
+            For missing clauses, set original_text to "N/A - Clause not found in contract".
+
             OUTPUT FORMAT:
             You MUST return a valid JSON object with the following structure:
             {
-                "red_flags": ["risk 1 [CITATION: Code § X]", "risk 2"],
-                "yellow_flags": ["risk 3", "Missing Clause: X"],
-                "green_flags": ["good clause 1"]
+                "red_flags": [{"analysis": "risk 1 [CITATION: Code § X]", "original_text": "exact clause text"}, ...],
+                "yellow_flags": [{"analysis": "risk 3", "original_text": "exact clause text"}, ...],
+                "green_flags": [{"analysis": "good clause 1", "original_text": "exact clause text"}, ...]
             }
             Do not wrap in markdown code blocks.
             """,
